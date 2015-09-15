@@ -1,0 +1,50 @@
+<!-- written by Omer Tashir, 11/09/2015 -->
+<!DOCTYPE html>
+<html lang="en" data-ng-app="sidebar-module">
+<head>
+    <meta charset="UTF-8">
+    <title>Blazemeter Exercise</title>
+    <link rel="stylesheet" href="sidebar.css">
+    <script src="../angular.min.js"></script>
+</head>
+
+<body data-ng-controller="sidebar-controller">
+<button class="open-close" data-ng-click="OpenSidebar=!OpenSidebar"
+        data-ng-show="!OpenSidebar">open sidebar</button>
+    <div class="sidebar-grid-view animate-hide" data-ng-show="OpenSidebar" data-ng-hide="!OpenSidebar"
+         data-ng-init="refresh()">
+        <div class="sidebar-wrapper">
+            <div class="grid-header">
+                <p class="grid-header-content">Reports</p>
+                <p class="grid-header-content" id="grid-reports-counter">{{reports.length}}</p>
+                <img class="grid-header-refresh-icon" src="../icons/update17.png" alt="refresh"
+                     data-ng-click="refresh()">
+                <img class="grid-header-close-icon" src="../icons/letterx.png" alt="close"
+                     data-ng-click="OpenSidebar=!OpenSidebar">
+            </div>
+            <div class="grid-sort">
+                <input type="text" placeholder="search reports" class="grid-sort-p" data-ng-model="search_input">
+                <img class="grid-sort-solid-up" src="../icons/solid-up.png" data-ng-click="sort_order = 'updated'">
+                <img class="grid-sort-solid-down" src="../icons/solid-down.png"
+                     data-ng-click="sort_order = '-updated'">
+            </div>
+            <div class="grid-reports">
+                <div class="column" data-ng-repeat="report in reports | orderBy: sort_order | filter:search_input"
+                     data-ng-class-odd="odd_class">
+                    <img class="column-dot" src="../icons/20x20-dot-silver.png">
+                    <p class="column-title">{{report.name}}</p>
+                    <p class="column-date">{{report.created | date: 'MMM dd'}}</p>
+                    <p class="column-position">{{report.type}}</p>
+                    <img src="../icons/location-icon.png" class="column-location-icon">
+                    <p class="column-location">{{report.location}}</p>
+                    <p class="column-time">{{report.updated | date: TimeFormat}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script src="../modules/sidebar-module.js"></script>
+<script src="../angular-animate.min.js"></script>
+<script src="../controllers/sidebar-controller.js"></script>
